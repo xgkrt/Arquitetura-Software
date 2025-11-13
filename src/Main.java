@@ -1,22 +1,33 @@
+import dao.DaoProduct;
 import entity.Order;
+import entity.Product;
 import enums.Status;
 import factory.Payment;
 import factory.PaymentFactory;
-import observe.Admin;
+import observe.AdminNotification;
 import observe.CustomerNotification;
-import singleton.Database;
+import observe.Notifier;
+import singleton.ConnectionDatabase;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Database db = Database.getInstance();
+        ConnectionDatabase db = ConnectionDatabase.getInstance();
+        DaoProduct daoProduct = new DaoProduct(db);
+        DaoProduct daoProduct2 = new DaoProduct(db);
+
+        List<Product> products = daoProduct.findAll();
+
         System.out.println("Produtos disponíveis:");
-        db.getProductList().forEach(System.out::println);
+        products.forEach(System.out::println);
 
-        Order order = new Order();
-        order.addProduct(db.getProductList().get(0));
+        Notifier notifier = new Notifier();
+        notifier.attach(new CustomerNotification());
+        notifier.attach(new AdminNotification());
 
-        order.attach(new CustomerNotification());
-        order.attach(new Admin());
+        Order order = new Order(notifier);
+        order.addProduct(products.getFirst());
 
         Payment payment = PaymentFactory.create("pix");
         payment.pay(order.total());

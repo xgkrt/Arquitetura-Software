@@ -1,15 +1,19 @@
 package entity;
 
 import enums.Status;
-import observe.Observer;
+import observe.Notifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
     private List<Product> items = new ArrayList<>();
-    private List<Observer> observers = new ArrayList<>();
+    private Notifier notifier = new Notifier();
     private Status status = Status.PENDENTE;
+
+    public Order(Notifier notifier) {
+        this.notifier = notifier;
+    }
 
     public Status getStatus() {
         return status;
@@ -19,18 +23,9 @@ public class Order {
         items.add(p);
     }
 
-    public void attach(Observer obs) {
-        observers.add(obs);
-    }
-
-    private void notifyAllObservers() {
-        for (Observer o : observers)
-            o.update(status);
-    }
-
     public void setStatus(Status newStatus) {
         this.status = newStatus;
-        notifyAllObservers();
+        this.notifier.notify(newStatus);
     }
 
     public double total() {
