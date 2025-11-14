@@ -21,10 +21,6 @@ public class DaoProduct {
         };
     };
 
-    public DaoProduct() {
-        this.connectionDatabase = ConnectionDatabase.getInstance();
-    }
-
     public List<Product> findAll() {
         return productList;
     }

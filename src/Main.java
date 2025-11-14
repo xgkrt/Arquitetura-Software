@@ -16,6 +16,7 @@ public class Main {
         ConnectionDatabase db = ConnectionDatabase.getInstance();
         DaoProduct daoProduct = new DaoProduct(db);
         DaoProduct daoProduct2 = new DaoProduct(db);
+        DaoProduct daoProduct3 = new DaoProduct(db);
 
         List<Product> products = daoProduct.findAll();
 
