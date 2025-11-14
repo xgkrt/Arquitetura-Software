@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Notifier implements Observer  {
 
-    private List<Observer> observers = new ArrayList<>();
+    private final List<Observer> observers = new ArrayList<>();
 
     public void attach(Observer observer) {
         observers.add(observer);

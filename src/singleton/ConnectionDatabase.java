@@ -1,10 +1,5 @@
 package singleton;
 
-import entity.Product;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class ConnectionDatabase {
     private static ConnectionDatabase instance;
 
